@@ -1,4 +1,4 @@
-function [encodedMSG] = BCHEncoder(msgTx,n,k)
+function [t, encodedMSG] = BCHEncoder(msgTx,n,k)
 
 % This function implements a BCH(n,k) forward error-correction
 % code capable of correcting t < 2^(m-1) errors 
@@ -15,7 +15,6 @@ t = bchnumerr(n,k);
 %Encode message
 
 encodedMSG = bchenc(msgTx,n,k, 'beginning');
-
 
 
 end
