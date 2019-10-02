@@ -21,3 +21,7 @@ k = 4;
 
 noisyMSG = rayleighChannel(encodedMSG,n,t)
 
+%Decode message
+
+decodedMSG= BCHDecoder(noisyMSG, n,k)
+
