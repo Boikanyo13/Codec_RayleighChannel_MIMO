@@ -8,10 +8,10 @@
 clc
 
 numWords = 1;
-msglen = 5;
+msglen = 4;
 msgTx = GenerateMSG(numWords,msglen)
 
 % BCH encoding
-n = 63;
-k = 45;
-[t] = BCHEncoder(msgTx, n,k);
+n = 7;
+k = 4;
+[encodedMSG] = BCHEncoder(msgTx, n,k)
