@@ -25,3 +25,7 @@ noisyMSG = rayleighChannel(encodedMSG,n,t)
 
 decodedMSG= BCHDecoder(noisyMSG, n,k)
 
+% Confirm if codeword is decoded correctly
+
+isCorrect = isequal(msgTx, decodedMSG)
+
