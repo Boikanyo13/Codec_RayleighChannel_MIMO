@@ -6,4 +6,12 @@
 
 %Generate Message
 clc
-msgTx = GenerateMSG(1,5);
+
+numWords = 1;
+k = 5;
+msgTx = GenerateMSG(numWords,k);
+
+% BCH encoding
+n = 63;
+k = 45;
+[t] = BCHEncoder(msgTx, n,k);
