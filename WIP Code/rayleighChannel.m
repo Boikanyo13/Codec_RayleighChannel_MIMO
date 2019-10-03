@@ -6,6 +6,8 @@ function [noisyMSG] = rayleighChannel(encodedMSG,n,t )
 
 %Introduce errors in the code word
 
+%t = maximum numer of errors that can be corrected by FEC
+
 noisyMSG = encodedMSG + randerr(1, n,1:t);
 
 

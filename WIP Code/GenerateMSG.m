@@ -1,9 +1,5 @@
 function [msgTx] = GenerateMSG(numWords, msglen)
 
-% Boikanyo Radiokana 1386807
-% ELEN4011 - 2019
-
-
 %This function generates a random binary message that needs to be 
 %transmitted
 

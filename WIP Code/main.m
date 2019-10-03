@@ -13,8 +13,9 @@ msglen = 4;
 msgTx = GenerateMSG(numWords,msglen)
 
 % BCH encoding
-n = 7;
-k = 4;
+m = 3;
+n = 2^(m)-1;    %codeword length
+k = 4;          %message length
 [t, encodedMSG] = BCHEncoder(msgTx, n,k)
 
 %Channel - Introduce Error
