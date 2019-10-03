@@ -8,6 +8,7 @@ function [noisyMSG] = rayleighChannel(encodedMSG,n,t )
 
 %t = maximum numer of errors that can be corrected by FEC
 
+encodedMSG = encodedMSG.';              %flip code word
 noisyMSG = encodedMSG + randerr(1, n,1:t);
 
 

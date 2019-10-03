@@ -23,25 +23,19 @@ k = 4;          %message length
 
 [t, encodedMSG] = BCHEncoder_(msgTx, n,k)
 
-% [out]=gf2dec(encodedMSG,m)
-% M-QAM Modulation
+ 
+% Channel - Introduce Error
 
-% M = 16;          %Modulation order
-% 
-% % modulatedMSG = M_QAM(encodedMSG,m, M)
-% 
-% % Channel - Introduce Error
-% 
-% noisyMSG = rayleighChannel(encodedMSG,n,t)
-% 
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % Decode message
-% 
-% decodedMSG= BCHDecoder(noisyMSG, n,k)
-% 
-% % Confirm if codeword is decoded correctly
-% 
-% isCorrect = isequal(msgTx, decodedMSG)
+noisyMSG = rayleighChannel(encodedMSG,n,t)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Decode message
+
+decodedMSG= BCHDecoder(noisyMSG, n,k)
+
+% Confirm if codeword is decoded correctly
+decodedMSG = decodedMSG.';
+isCorrect = isequal(msgTx, decodedMSG)
 
 
