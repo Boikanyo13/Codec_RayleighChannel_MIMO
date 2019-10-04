@@ -8,8 +8,6 @@ function [t, encodedMSG] = BCHEncoder_(msgTx,n,k)
 % n - length of code word after encoding
 % parity - number of parity bits (n-k)
 
-msgTx = msgTx.';                            %flip message
-
 t = bchnumerr(n,k);                         %Error correcting capability
 genpoly = bchgenpoly(n,k);                  %generator polynomial
 

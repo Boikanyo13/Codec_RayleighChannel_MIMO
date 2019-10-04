@@ -6,38 +6,42 @@
 
 clc
 clear all
+close all
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%TRANSMITER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Generate random binary message
 
 numWords = 1;   %number of words
-msglen = 4;     %lenth of words
-msgTx = GenerateMSG(numWords,msglen)
+M = 16;         %Modulation order
+k = 4;          %message length (length of words)
+msgTx = GenerateMSG(k,M)
 
 
 % BCH encoding
 
 m = 3;
 n = 2^(m)-1;    %codeword length
-k = 4;          %message length
 r = k/n;        %code rate
 [t, encodedMSG] = BCHEncoder_(msgTx, n,k);
 
+
+%M-QAM Modulation
+
+[modulatedMSG] = M_QAM(encodedMSG, M)
  
-% Channel - Introduce Error
-
-noisyMSG = rayleighChannel(encodedMSG,n,t)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Channel - Introduce Error
+% 
+%noisyMSG = rayleighChannel(encodedMSG,n,t)
+% 
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Decode message
 
-decodedMSG= BCHDecoder(noisyMSG, n,k);
-
-% Confirm if codeword is decoded correctly
-
-decodedMSG = decodedMSG.';
-isCorrect = isequal(msgTx, decodedMSG)
+% decodedMSG= BCHDecoder(encodedMSG, n,k)
+% 
+% % Confirm if codeword is decoded correctly
+% 
+% isCorrect = isequal(msgTx, decodedMSG)
 
 
