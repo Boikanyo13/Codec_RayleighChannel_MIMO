@@ -28,23 +28,21 @@ r = k/n;        %code rate
 
 %M-QAM Modulation
 
-[modulatedMSG] = M_QAM(encodedMSG, M)
+[modulatedMSG] = M_QAM(encodedMSG, M);
  
-% % Channel - Introduce Error
-% 
-%noisyMSG = rayleighChannel(encodedMSG,n,t)
-% 
-% 
+
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[demodulatedMSG] = M_QAM_Demodulator(modulatedMSG, M)
+%M-QAM Demodulation
 
-% Decode message
+[demodulatedMSG] = M_QAM_Demodulator(modulatedMSG, M);
 
-% decodedMSG= BCHDecoder(encodedMSG, n,k)
-% 
-% % Confirm if codeword is decoded correctly
-% 
- isCorrect = isequal(encodedMSG, demodulatedMSG)
+%Decode message
+
+msgRx= BCHDecoder(demodulatedMSG, n,k)
+
+%Confirm if codeword is decoded correctly
+
+isCorrect = isequal(msgTx, msgTx)
 
 
