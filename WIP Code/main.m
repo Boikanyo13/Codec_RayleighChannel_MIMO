@@ -21,6 +21,7 @@ msgTx = GenerateMSG(numWords,msglen)
 m = 3;
 n = 2^(m)-1;    %codeword length
 k = 4;          %message length
+r = k/n;        %code rate
 [t, encodedMSG] = BCHEncoder_(msgTx, n,k);
 
  
