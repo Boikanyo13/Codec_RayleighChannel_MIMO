@@ -1,16 +1,19 @@
-function [noisyMSG] = rayleighChannel(encodedMSG,n,t )
+function [noisySIG] = rayleighChannel(modulatedMSG, SNR )
 
 %This function models a rayleigh fading channel and the
 % effects it will have on the transmitted signal
 
+%introduce white gaussian noise
 
-%Introduce errors in the code word
+noisySIG = awgn(modulatedMSG, SNR);
+%Plot constellation
 
-%t = maximum numer of errors that can be corrected by FEC
-
-encodedMSG = encodedMSG.';                      %flip code word
-noisyMSG = encodedMSG + randerr(1, n,1:t);      %Add noise
-noisyMSG = mod(noisyMSG,2);                     %Ensure that signal is binary
+scatterplot(noisySIG,1,0,'b*');         
+title('M-QAM Constellation- AWGN');
+grid on;
+ax = gca;                        % gets the current axes
+ax.XAxisLocation = 'origin';     % sets them to zero
+ax.YAxisLocation = 'origin';     % sets them to zero
 
 
 end

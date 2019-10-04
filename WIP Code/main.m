@@ -29,7 +29,14 @@ r = k/n;        %code rate
 %M-QAM Modulation
 
 [modulatedMSG] = M_QAM(encodedMSG, M);
- 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%RayleighChannel%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+EbNo = 10;              %ratio of bit energy to noise power spectral density
+SNR = EbNo + 10*log10(r) + 10*log10(log2(M));
+
+%Introduce AWGN -Noise
+[noisyMSG] = rayleighChannel(modulatedMSG, SNR )
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
