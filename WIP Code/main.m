@@ -39,10 +39,10 @@ r = k/n;        %code rate
 
 %Decode message
 
-msgRx= BCHDecoder(demodulatedMSG, n,k)
+msgRx= BCHDecoder(demodulatedMSG, n,k);
 
 %Confirm if codeword is decoded correctly
 
-isCorrect = isequal(msgTx, msgTx)
+isCorrect = isequal(msgTx, msgTx);
 
 
