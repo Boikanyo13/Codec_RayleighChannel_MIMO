@@ -4,6 +4,6 @@ function [modulatedMSG] = M_QAM(codeWord, M)
 
 modulatedMSG = qammod(codeWord, M, 'UnitAveragePower', true,  'InputType', 'bit');
 
-scatterplot(modulatedMSG,1,0,'r*');
+scatterplot(modulatedMSG,1,0,'r*');         %Plot constellation
 
 end

@@ -36,12 +36,15 @@ r = k/n;        %code rate
 % 
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+[demodulatedMSG] = M_QAM_Demodulator(modulatedMSG, M)
+
 % Decode message
 
 % decodedMSG= BCHDecoder(encodedMSG, n,k)
 % 
 % % Confirm if codeword is decoded correctly
 % 
-% isCorrect = isequal(msgTx, decodedMSG)
+ isCorrect = isequal(encodedMSG, demodulatedMSG)
 
 
