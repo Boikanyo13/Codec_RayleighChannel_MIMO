@@ -42,7 +42,7 @@ SNR = EbNo + 10*log10(r) + 10*log10(log2(M));
 
 %M-QAM Demodulation
 
-[demodulatedMSG] = M_QAM_Demodulator(modulatedMSG, M);
+[demodulatedMSG] = M_QAM_Demodulator(noisyMSG, M);
 
 %Decode message
 
@@ -50,6 +50,6 @@ msgRx= BCHDecoder(demodulatedMSG, n,k);
 
 %Confirm if codeword is decoded correctly
 
-isCorrect = isequal(msgTx, msgTx);
+isCorrect = isequal(msgTx, msgTx)
 
 
