@@ -4,29 +4,45 @@
 % This script is responsible for running the entire codec, from
 % transmission to the receiver end
 
-%Generate Message
 clc
 clear all
+close all
 
-numWords = 1;
-msglen = 4;
-msgTx = GenerateMSG(numWords,msglen)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%TRANSMITER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Generate random binary message
+
+numWords = 1;   %number of words
+M = 16;         %Modulation order
+k = 4;          %message length (length of words)
+msgTx = GenerateMSG(k,M)
+
 
 % BCH encoding
+
 m = 3;
 n = 2^(m)-1;    %codeword length
-k = 4;          %message length
-[t, encodedMSG] = BCHEncoder(msgTx, n,k)
+r = k/n;        %code rate
+[t, encodedMSG] = BCHEncoder_(msgTx, n,k);
 
-%Channel - Introduce Error
 
-noisyMSG = rayleighChannel(encodedMSG,n,t)
+%M-QAM Modulation
+
+[modulatedMSG] = M_QAM(encodedMSG, M);
+ 
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%M-QAM Demodulation
+
+[demodulatedMSG] = M_QAM_Demodulator(modulatedMSG, M);
 
 %Decode message
 
-decodedMSG= BCHDecoder(noisyMSG, n,k)
+msgRx= BCHDecoder(demodulatedMSG, n,k)
 
-% Confirm if codeword is decoded correctly
+%Confirm if codeword is decoded correctly
 
-isCorrect = isequal(msgTx, decodedMSG)
+isCorrect = isequal(msgTx, msgTx)
+
 

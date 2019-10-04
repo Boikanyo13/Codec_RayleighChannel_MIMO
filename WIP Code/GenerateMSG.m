@@ -1,4 +1,4 @@
-function [msgTx] = GenerateMSG(numWords, msglen)
+function [msgTx] = GenerateMSG(k, M)
 
 %This function generates a random binary message that needs to be 
 %transmitted
@@ -6,6 +6,6 @@ function [msgTx] = GenerateMSG(numWords, msglen)
 % msglen --> Message Length
 % numWords --> Number of words
 
-msgTx = gf(randi([0 1], numWords, msglen));
+msgTx = randi([0 1], k*log2(M), 1);
 
 end
