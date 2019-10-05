@@ -8,24 +8,69 @@ clc
 clear all
 close all
 
-messageLength = 12000;       %number of words
-EbNo = 0:30;                 %ratio of bit energy to noise power spectral density
-M = 16;                      %Modulation order
-k = 4;                       %message length (length of words)
-m = 3;
+EbNo = 0:30;           %ratio of bit energy to noise power spectral density
+
+%==========================================================================
+%BCH()-----16_QAM
+
+messageLength1 = 20250;       %number of words
+M = 16;                       %Modulation order
+k = 45;                        %message length (length of words)
+m = 6; 
+n = 2^(m)-1;                   %codeword length
+r = k/n;                      %code rate
+
+genpoly = bchgenpoly(n,k);    %generator polynomial
+
+%BCH Encoder Object
+encoder1 = comm.BCHEncoder(n,k,genpoly);      
+%BCH Decoder Object
+decoder1 = comm.BCHDecoder(n,k,genpoly);      
+%Error stats
+errorRate1 = comm.ErrorRate;   %ErrorRate object
+
+BER = BER_SNR(EbNo,r,k,M, messageLength1, encoder1, decoder1, errorRate1);
+
+%==========================================================================
+%BCH()-----32_QAM
+
+messageLength2 = 20250;       %number of words
+M = 32;                      %Modulation order
+k = 45;                       %message length (length of words)
+m = 6;
 n = 2^(m)-1;                 %codeword length
 r = k/n;                     %code rate
 
-genpoly = bchgenpoly(n,k);                  %generator polynomial
+genpoly2 = bchgenpoly(n,k);                  %generator polynomial
 
 %BCH Encoder Object
-encoder = comm.BCHEncoder(n,k,genpoly);      
+encoder2 = comm.BCHEncoder(n,k,genpoly2);      
 %BCH Decoder Object
-decoder = comm.BCHDecoder(n,k,genpoly);      
+decoder2 = comm.BCHDecoder(n,k,genpoly2);      
 %Error stats
-errorRate = comm.ErrorRate;                  %ErrorRate object
+errorRate2 = comm.ErrorRate;                  %ErrorRate object
 
-BER = BER_SNR(EbNo,r,k,M, messageLength, encoder, decoder, errorRate);
+BER2 = BER_SNR(EbNo,r,k,M, messageLength2, encoder2, decoder2, errorRate2);
+
+%==========================================================================
+%BCH(63,45)-----64_QAM
+messageLength3 = 20250;       %number of words
+M = 64;                      %Modulation order
+k = 45;                       %message length (length of words)
+m = 6;
+n = 2^(m)-1;                 %codeword length
+r = k/n;                     %code rate
+
+genpoly3 = bchgenpoly(n,k);                  %generator polynomial
+
+%BCH Encoder Object
+encoder3 = comm.BCHEncoder(n,k,genpoly3);      
+%BCH Decoder Object
+decoder3 = comm.BCHDecoder(n,k,genpoly3);      
+%Error stats
+errorRate3 = comm.ErrorRate;                  %ErrorRate object
+
+BER3 = BER_SNR(EbNo,r,k,M, messageLength3, encoder3, decoder3, errorRate3);
 
 
 

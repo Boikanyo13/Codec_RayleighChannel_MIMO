@@ -85,6 +85,7 @@ constellaton = scatterplot(noisyComponents,1,0,'k.');
 title('BCH(n,k) M-QAM Constellation');
 grid on
 hold on;
-scatterplot(modulatedTx,1,0,'rp',constellaton); 
+scatterplot(modulatedTx,1,0,'rp',constellaton);
+hold off;
 
 end
