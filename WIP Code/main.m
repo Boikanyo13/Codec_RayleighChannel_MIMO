@@ -44,6 +44,14 @@ errorRate = comm.ErrorRate;
 errorStats = zeros(3,1);
 BER = zeros(1,length(EbNo));
 
+genpoly = bchgenpoly(n,k);                  %generator polynomial
+
+%Encoder
+encoder = comm.BCHEncoder(n,k,genpoly);      %BCH Object
+%Decoder 
+decoder = comm.BCHDecoder(n,k,genpoly);      %BCH Object
+
+
 
 for i = 1:length(EbNo)
     
@@ -59,7 +67,7 @@ for i = 1:length(EbNo)
              
         % BCH encoding
         
-        [t, encodedMSG] = BCHEncoder_(msgTx, n,k);
+        [encodedMSG] = BCHEncoder_(encoder, msgTx);
               
         %M-QAM Modulation
         
@@ -78,7 +86,7 @@ for i = 1:length(EbNo)
         
         %Decode message
         
-        msgRx= BCHDecoder(demodulatedMSG, n,k);
+        msgRx= BCHDecoder(decoder, demodulatedMSG);
         
         %Confirm if codeword is decoded correctly
         
