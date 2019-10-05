@@ -1,47 +1,62 @@
 function [BER, SNR] = BER_SNR(EbNo,r,k,M,messageLength,encoder, decoder,errorRate)
 
+%This function calculates the Bit Error Rate of each message evaluated at a
+%certain Eb/No ratio, using certain BCH values and M-QAM Modulation scheme
 
 errorStats = zeros(3,1);
 BER = zeros(1,length(EbNo));
+
+%For constelattion plots
+noisyComponents = [];
+
 
 for i = 1:length(EbNo)
     
     SNR = EbNo(i) + 10*log10(r) + 10*log10(log2(M));      %signal to noise ratio
     errorStats = zeros(3,1);
     
+    
     while errorStats(3) < messageLength
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%TRANSMITER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Generate random binary message
+      
+        msgTx = randi([0 1], k*log2(M)*length(EbNo), 1);
         
-        msgTx = GenerateMSG(k,M);
              
         % BCH encoding
+        % This function implements a BCH(n,k) forward error-correction
+        % code capable of correcting t < 2^(m-1) errors 
+
+        encodedTx = encoder(msgTx);                 %encode message
         
-        [encodedMSG] = BCHEncoder_(encoder, msgTx);
               
         %M-QAM Modulation
         
-        [modulatedMSG] = M_QAM(encodedMSG, M);
+        modulatedTx = qammod(encodedTx, M, 'UnitAveragePower', true,  'InputType', 'bit');
+ 
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%RayleighChannel%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         %Introduce AWGN -Noise
-        [noisyMSG] = rayleighChannel(modulatedMSG, SNR);
+        [noisyRx] = rayleighChannel(modulatedTx, SNR);
+        noisyComponents = [noisyComponents; noisyRx];
         
         % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%RECEIVER%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         %M-QAM Demodulation
         
-        [demodulatedMSG] = M_QAM_Demodulator(noisyMSG, M);
+        demodulatedRx = qamdemod(noisyRx, M, 'UnitAveragePower', true,  'OutputType', 'bit');
         
         %Decode message
+        %This function decodes the message by correcring the errors introduced
+        % in the channel
+        msgRx= decoder(demodulatedRx);
         
-        msgRx= BCHDecoder(decoder, demodulatedMSG);
         
         %Confirm if codeword is decoded correctly
         
-%         isCorrect = isequal(msgTx, msgTx);
+        %isCorrect = isequal(msgTx, msgTx);
         errorStats = errorRate(msgRx,msgTx );
         
     end
@@ -58,11 +73,18 @@ for i = 1:length(EbNo)
         reset(errorRate);
 end
 
+%%%%%%%%%%%%Plots 
+%BER and Eb/No
 semilogy(EbNo,BER, 'bp-')
+xlabel('Eb/No(dB)')
+ylabel('BER')
+title('Performance of BCH(n,k), M-QAM Codec')
 
-s = scatterplot(modulatedMSG,1,0,'r*'); 
-hold on;
-scatterplot(noisyMSG,1,0,'bp',s)
-title('M-QAM Constellation');
+%Constellations
+constellaton = scatterplot(noisyComponents,1,0,'k.');
+title('BCH(n,k) M-QAM Constellation');
 grid on
+hold on;
+scatterplot(modulatedTx,1,0,'rp',constellaton); 
+
 end
