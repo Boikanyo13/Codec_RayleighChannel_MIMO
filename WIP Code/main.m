@@ -29,7 +29,7 @@ decoder1 = comm.BCHDecoder(n,k,genpoly);
 %Error stats
 errorRate1 = comm.ErrorRate;   %ErrorRate object
 
-BER = BER_SNR(EbNo,r,k,M, messageLength1, encoder1, decoder1, errorRate1);
+BER = BER_SNR(EbNo,r,n,k,M, messageLength1, encoder1, decoder1, errorRate1);
 
 %==========================================================================
 %BCH()-----32_QAM
@@ -50,7 +50,7 @@ decoder2 = comm.BCHDecoder(n,k,genpoly2);
 %Error stats
 errorRate2 = comm.ErrorRate;                  %ErrorRate object
 
-BER2 = BER_SNR(EbNo,r,k,M, messageLength2, encoder2, decoder2, errorRate2);
+BER2 = BER_SNR(EbNo,r,n,k,M, messageLength2, encoder2, decoder2, errorRate2);
 
 %==========================================================================
 %BCH(63,45)-----64_QAM
@@ -70,7 +70,7 @@ decoder3 = comm.BCHDecoder(n,k,genpoly3);
 %Error stats
 errorRate3 = comm.ErrorRate;                  %ErrorRate object
 
-BER3 = BER_SNR(EbNo,r,k,M, messageLength3, encoder3, decoder3, errorRate3);
+BER3 = BER_SNR(EbNo,r,n,k,M, messageLength3, encoder3, decoder3, errorRate3);
 
 
 

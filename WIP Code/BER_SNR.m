@@ -1,4 +1,4 @@
-function [BER, SNR] = BER_SNR(EbNo,r,k,M,messageLength,encoder, decoder,errorRate)
+function [BER, SNR] = BER_SNR(EbNo,r,n,k,M,messageLength,encoder, decoder,errorRate)
 
 %This function calculates the Bit Error Rate of each message evaluated at a
 %certain Eb/No ratio, using certain BCH values and M-QAM Modulation scheme
@@ -74,14 +74,10 @@ for i = 1:length(EbNo)
 end
 
 %%%%%%%%%%%%Plots 
-%BER and Eb/No
-figure
 
-semilogy(EbNo,BER, 'bp-')
-xlabel('Eb/No(dB)')
-ylabel('BER')
-title('Performance of BCH(n,k), M-QAM Codec')
+%BER vs SNR
+BER_SNRPlot(EbNo,BER,n,k,M);
 
 %Constellations
-ConstellationPlot(noisyComponents,modulatedTx)
+ConstellationPlot(noisyComponents,modulatedTx);
 end
