@@ -16,16 +16,16 @@ EbNo = 0:30;           %ratio of bit energy to noise power spectral density
 messageLength1 = 20250;       %number of words
 M = 16;                       %Modulation order
 k = 45;                        %message length (length of words)
-m = 6; 
+m = 6;
 n = 2^(m)-1;                   %codeword length
 r = k/n;                      %code rate
 
 genpoly = bchgenpoly(n,k);    %generator polynomial
 
 %BCH Encoder Object
-encoder1 = comm.BCHEncoder(n,k,genpoly);      
+encoder1 = comm.BCHEncoder(n,k,genpoly);
 %BCH Decoder Object
-decoder1 = comm.BCHDecoder(n,k,genpoly);      
+decoder1 = comm.BCHDecoder(n,k,genpoly);
 %Error stats
 errorRate1 = comm.ErrorRate;   %ErrorRate object
 
@@ -44,9 +44,9 @@ r = k/n;                     %code rate
 genpoly2 = bchgenpoly(n,k);                  %generator polynomial
 
 %BCH Encoder Object
-encoder2 = comm.BCHEncoder(n,k,genpoly2);      
+encoder2 = comm.BCHEncoder(n,k,genpoly2);
 %BCH Decoder Object
-decoder2 = comm.BCHDecoder(n,k,genpoly2);      
+decoder2 = comm.BCHDecoder(n,k,genpoly2);
 %Error stats
 errorRate2 = comm.ErrorRate;                  %ErrorRate object
 
@@ -64,9 +64,9 @@ r = k/n;                     %code rate
 genpoly3 = bchgenpoly(n,k);                  %generator polynomial
 
 %BCH Encoder Object
-encoder3 = comm.BCHEncoder(n,k,genpoly3);      
+encoder3 = comm.BCHEncoder(n,k,genpoly3);
 %BCH Decoder Object
-decoder3 = comm.BCHDecoder(n,k,genpoly3);      
+decoder3 = comm.BCHDecoder(n,k,genpoly3);
 %Error stats
 errorRate3 = comm.ErrorRate;                  %ErrorRate object
 

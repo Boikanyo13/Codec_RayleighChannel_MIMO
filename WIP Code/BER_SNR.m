@@ -75,17 +75,13 @@ end
 
 %%%%%%%%%%%%Plots 
 %BER and Eb/No
+figure
+
 semilogy(EbNo,BER, 'bp-')
 xlabel('Eb/No(dB)')
 ylabel('BER')
 title('Performance of BCH(n,k), M-QAM Codec')
 
 %Constellations
-constellaton = scatterplot(noisyComponents,1,0,'k.');
-title('BCH(n,k) M-QAM Constellation');
-grid on
-hold on;
-scatterplot(modulatedTx,1,0,'rp',constellaton);
-hold off;
-
+ConstellationPlot(noisyComponents,modulatedTx)
 end
