@@ -95,8 +95,40 @@ Turbo codes have been found to perform better than the listed codes because of i
 A lot of research has been done to compare the performance between RS codes and BCH codes\cite{22}, \cite{9}, \cite{24}. It is found that RS codes are more suitable for concatenated codes and correcting burst errors. BCH codes on the other hand perform better than RS codes in Rayleigh Fading Channels with binary configurations \cite{22}. For this reason BCH codes are chosen for the design of the codec.
 
 \subsubsection{BCH Encoder}
+A BCH(\textit{n},\textit{k}) code with \textit{n} = 63, \textit{k} = 45 and a code rate \textit{r} = 0.714 is used since BCH codes with low redundancy and low error correction capability perform better \cite{14_7}. This is due to the fact that longer codewords require more bandwidth and have a high probability of errors. The BCH(63,45) code is capable of correcting a maximum of \textit{t} = 3 errors for a positive integer \textit{m}, where \(m\geq3\) and \(t<2^{m-1}\). The parameters of a BCH(\textit{n},\textit{k}) code are described by equations 1, 2 and 3 as follows:
+
+\begin{equation}
+	n = 2^{m}-1
+\end{equation}
+
+\begin{equation}
+	n-k\geq mt
+\end{equation}
+
+\begin{equation}
+	d_{min} \geq 2t -1
+\end{equation}
+
+wherein \textit{n} is the length of the codeword, \textit{k} is the length of the input message and \(d_{min}\) is the minimum distance. To encode the message \(m(x)\), the BCH encoder employs a generator polynomial \(g(x)\) defined by roots over the Galois Field GF($2^{m}$). Equation 4 describes \(g(x)\) for BCH(63,45).
+
+\begin{equation} 
+	g(x)= LCM\{\sigma_{1}(x),\sigma_{2}(x),... \sigma_{2t}(x)\} = 1 +x+2
+\end{equation}
+
+with \(\sigma_{i}(x)\) being the minimal polynomial. The remainder \(r(x)\) as depicted in Equation 5 is then calculated to find the parity check bits.
+
+\begin{equation}
+	r(x) = mod(m(x), g(x)) 
+\end{equation}
+
+Finally, the codeword \(c(x)\) is found using Equation 6 below:
+
+\begin{equation}
+	c(x) = r(x) + m(x)
+\end{equation}
 
 \subsubsection{BCH Decoder}
+To retrieve the original message from the received codeword, all the syndromes of the codeword are computed. If any of the syndromes are zero, it means there is no error in the received codeword hence no further action is needed, else the errors need to be located and corrected. This would then be followed by determining the error location polynomial using the syndromes by applying the Berlekamp-Massey Algorithm. Once the error location polynomial has been found, errors are located and corrected.
 
 \section{Simulation Results}
 \section{Critical Analysis}
