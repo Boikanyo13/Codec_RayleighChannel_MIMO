@@ -13,7 +13,7 @@ EbNo = 0:30;           %ratio of bit energy to noise power spectral density
 %==========================================================================
 %BCH()-----16_QAM
 
-messageLength1 = 20250;       %number of words
+messageLength1 = 1000;       %number of words
 M = 16;                       %Modulation order
 k = 45;                        %message length (length of words)
 m = 6;
@@ -34,7 +34,7 @@ BER = BER_SNR(EbNo,r,n,k,M, messageLength1, encoder1, decoder1, errorRate1);
 %==========================================================================
 %BCH()-----32_QAM
 
-messageLength2 = 20250;       %number of words
+messageLength2 = 1000;       %number of words
 M = 32;                      %Modulation order
 k = 45;                       %message length (length of words)
 m = 6;
@@ -54,7 +54,7 @@ BER2 = BER_SNR(EbNo,r,n,k,M, messageLength2, encoder2, decoder2, errorRate2);
 
 %==========================================================================
 %BCH(63,45)-----64_QAM
-messageLength3 = 20250;       %number of words
+messageLength3 = 1000;       %number of words
 M = 64;                      %Modulation order
 k = 45;                       %message length (length of words)
 m = 6;

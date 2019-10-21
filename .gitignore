@@ -1,1 +1,9 @@
 *.m~
+*.aux
+*.bbl
+*.out
+*.toc
+*.log
+*.idx
+*.synctex.gz
+*.blg

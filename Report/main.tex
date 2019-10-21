@@ -1,0 +1,111 @@
+\documentclass[pdftex,11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+
+\usepackage[hidelinks]{hyperref}
+\usepackage[text={16cm,24cm},centering]{geometry}
+
+\usepackage{paracol}
+\usepackage{blindtext}
+
+
+\setlength{\parskip}{1em}
+\usepackage[onehalfspacing]{setspace}
+
+\renewcommand\thesection{\arabic{section}}
+\renewcommand\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection.\arabic{subsubsection}}
+
+%\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{imakeidx}
+\usepackage{changepage}   % for the adjustwidth environment
+\makeindex[columns=3, title=Alphabetical Index, intoc]
+
+\begin{document}
+%\maketitle
+\input{titlepage.tex}
+
+\tableofcontents
+
+\newpage
+\section{Introduction}
+Over the past years, the Telecommunications industry has seen a significant growth in demand for highly reliable wireless communication links that are capable of transmitting data at high rates. Unfortunately, like any other type of channel, a wireless channel has its own shortcomings. It is prone to noise, fading, reflection and shadowing \cite{22}. To combat these challenges, commonly used Forward Error Correction (FEC) techniques have been adopted in many applications to improve the reliability of data transmission. FEC enables data to be transmitted over long distances at low transmit power and at low Bit Error Rates, however, it requires an increase in channel bandwidth \cite{22}, \cite{18}.
+
+To compensate for this, a widely used technology, MIMO architecture has been extensively explored and implemented \cite{18_1}, \cite{42}. It makes use of multiple transmit and receive antennas to improve the quality of digital communication systems. The key benefits of MIMO technology include an increase in channel capacity, high spectral efficiency as well as high data rates \cite{3}. MIMO systems have been found to have a linear increase in channel capacity with the minimum number of transmit and receive antennas \cite{42}.
+
+In this paper, the design, analysis and simulation of a robust codec for a fading channel with MIMO architecture is presented. Section 2, 3 and 4 respectively present the design specifications, system model and the methodology adopted. Section 5, 6 and 7 details the simulation results, analysis and impacts of this type of technology on the society, the economy and the environment.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Design Specifications}
+The main objective of this project is to design a robust codec for a fading channel with an appropriate MIMO architecture that will combat the effects of fading. The following requirements and assumptions are taken into consideration when designing the codec. 
+
+\subsection{Requirements and Success Criteria}
+For the design to be deemed successful, the following requirements must be fullfilled:
+
+\begin{itemize}
+    \item The codec must achieve a spectral efficiency of at least 2bits/Hz.
+    \item The codec must be modelled for a Rayleigh fading channel.
+    \item The data transmission of at least 10Mbits/sec must be achieved. 
+\end{itemize}{}
+
+\subsection{Assumptions}
+The design is carried out with the following assumptions for simplification purposes:
+
+\begin{itemize}
+    \item Source encoding has already been implemented, therefore, the input data stream is already converted to binary format.
+    \item Data encryption is not a primary component in this project, hence, it is optional.
+    \item Channel State Information (CSI) is known at both the transmitter and receiver, therefore, there channel estimation is not necessary.
+    \item It is assumed that the relative distance between the transmitter and the receiver will mostly remain main constant, thus the effects of Doppler shifts are negligible. 
+\end{itemize}{}
+
+\section{System Model}
+A digital communication system  is mainly composed of three subsystems, namely: the transmitter, channel and receiver. Figure \ref{fig:1} below depicts the proposed codec design modelled from the aforementioned subsystems. In this section, a brief description of the system model is provided. The design is simulated in MATLAB R2018b.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{system4.png}
+    \caption{System Model}
+    \label{fig:1}
+\end{figure}{}
+
+The source of information can be a text, video or picture and this will require binary conversion before any signal processing can take place. This process of conversion includes reducing the bandwidth while containing significant components of the signal and this is performed by the source encoder and source decoder for reversal. As stated in section 2.2, it is assumed that the information source has already been conditioned to bit streams. This implies that source encoding and decoding will be disregarded in this design, thus the information source will be a randomly generated bit stream. 
+
+The channel encoder is concerned with protecting the signal from channel noise, detecting and correcting errors present in the received signal through Forward Error Correction codes. This is achieved by introducing redundancy to the message at the encoder to ensure reliable transmission of information. Redundancy is exploited at the decoder to detect and correct any errors present in the message. 
+
+Modulation involves impressing the codeword on a sinusoidal carrier and generating symbols which make it possible for efficient transmission over a noisy channel. Demodulation performed on the receiver end extracts the codeword from the symbols.
+
+In a typical digital communication system, the symbols are transmitted through the channel after modulation. In this case, it goes through the MIMO architecture before being transmitted as seen in Figure \ref{fig:1}. There are types of MIMO techniques which arrange the symbols from a serial to parallel layout to allow symbols to be transmitted over multiple transmit and receive antennas. This reduces fading effects.
+
+The channel is modelled in such a way that it has introduces fading effects as well as Additive White Gaussian Noise.
+
+\section{Design Methodology}
+This section specifies and justifies the type of methods for each block that is illustrated in Figure \ref{fig:1}. Detailed mathematical computations for the respective blocks are provided.
+
+\subsection{Forward Error Correction}
+As mentioned earlier, wireless channels are prone to certain types of disturbances such as noise and fading. As a result, the received signal will contain errors. To protect the signal against errors, FEC codes are used. FEC codes add parity bits to the message in transit to introduce redundancy. The combination of the message and the parity bits are referred to as the \textit{Codeword}. FEC codes enable error detection and correction on the received codeword. Nevertheless, the codes have limitations to how many errors can be corrected. Error correction codes are classified into two categories, Convolutional Codes and Linear Block Codes. Turbo codes are a type of Convolutional Codes and BCH, RS and LDPC codes are types of Linear Block Codes. All the listed codes are capable of multiple error correction but differ in terms of complexity and implementation.
+
+Turbo codes have been found to perform better than the listed codes because of its ability to provide exceptional coding gains and also perform close to the Shannon Limit \cite{18},\cite{18_7}. Turbo codes usually use large frames of more than 1000 bits since short frames introduce delays at the decoder \cite{chris}. The main disadvantage of using large frames is a highly complex decoder. Similarly, LDPC codes perform well, it is also said that the codes have a relatively complex decoder \cite{7online}.
+
+A lot of research has been done to compare the performance between RS codes and BCH codes\cite{22}, \cite{9}, \cite{24}. It is found that RS codes are more suitable for concatenated codes and correcting burst errors. BCH codes on the other hand perform better than RS codes in Rayleigh Fading Channels with binary configurations \cite{22}. For this reason BCH codes are chosen for the design of the codec.
+
+\subsubsection{BCH Encoder}
+
+\subsubsection{BCH Decoder}
+
+\section{Simulation Results}
+\section{Critical Analysis}
+
+\section{Impacts}
+
+\section{Conclusion}
+\newpage
+\bibliographystyle{witseie}
+\bibliography{references}
+
+\end{document}

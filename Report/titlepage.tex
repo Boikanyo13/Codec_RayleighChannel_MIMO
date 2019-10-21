@@ -1,0 +1,60 @@
+%% Document settings
+%{
+
+\newcommand{\setlocalcolumnwidth}[1]{%
+	%\let\oldratio\pcol@columnratioleft
+	\setcolumnwidth{#1}%
+}
+
+\newcommand{\HRule}{\centering{\rule{1\linewidth}{1.5pt}}} % New command to make the lines in the title page
+
+\newcommand{\decoRule}{\rule{.8\textwidth}{.4pt}} % New command for a rule to be used under figures
+
+%}
+
+\begin{titlepage}
+
+\vspace{-20cm}
+   \begin{center}
+
+%      \setlength{\leftskip}{5mm}
+\setlocalcolumnwidth{0.2\textwidth,0.6\textwidth,0.2\textwidth}
+\begin{paracol}{3}
+	
+	\hspace{-1cm}\includegraphics[scale = 0.2]{eie.jpg}
+	\switchcolumn
+	{\LARGE School of Electrical and Information Engineering}
+	         {\large \\University of the Witwatersrand} 
+	         {\small \\Johannesburg, South Africa}
+	         \HRule \\[0.1cm]
+	         \vspace{3cm}
+	\switchcolumn
+		\includegraphics[scale = 0.23]{wits-orig.png}
+\end{paracol}
+
+\textbf{\Large DESIGN OF A ROBUST CODEC \\ \vspace{0.2cm} FOR A FADING}
+
+\vspace{0.5cm}
+         ELEN4011: DESIGN II
+ 
+       \vspace{1.5cm}
+ 
+       \textbf{Author:} Boikanyo Radiokana (1386807) \\
+       \vspace{1.5cm}
+       \textbf{Supervisor:} Prof. Fambarai Takawira
+       \vspace{1cm}
+       
+       25 October 2019
+       \vfill
+
+\begin{adjustwidth}{5mm}{}
+\textbf{Abstract:} To separate these two sections out we'll use the command which will automatically add in the amount of vertical space needed for the content to fill the page. Next we'll add in a line of text to specify what degree the thesis is being submitted for. The double backslash is used to create a new line. We'll then add more space before adding in the university logo specifying it's width as a fraction of the text width. Finally we'll add in some information about the university and the date.
+\end{adjustwidth}
+
+%\setlength{\rightskip}{-1cm}
+       
+
+       
+ 
+   \end{center}
+\end{titlepage}
