@@ -177,13 +177,17 @@ The resulting modulated signal is defined in Equation 8 which can further be exp
 s = A - jB
 \end{equation}
 
-In an M-QAM modulation scheme there are M possible symbols which used to represent a codeword. Each symbol contains \(k = log_{2}M\) bits. Table 1 shows which M-QAM modulation orders will be investigated as well as the symbol rates. The symbol rate \(R_s\) is determined using Equation 10 below:
+In an M-QAM modulation scheme there are M possible symbols which are used to represent a codeword. Each symbol contains \(k = log_{2}M\) bits. Table 1 shows which M-QAM modulation orders will be investigated as well as the symbol rates and spectral efficiency of the system with the respective modulation scheme. The symbol rate \(R_s\) is determined using Equation 10 below:
 
 \begin{equation}
 	R_s = \frac{R_b}{rlog_{2}M}
 \end{equation}
 
-wherein r is the code rate of the BCH encoder, \(R_b\) is the information source data rate and M is the modulation order.
+wherein r is the code rate of the BCH encoder, \(R_b\) is the information source data rate and M is the modulation order. The spectral efficiency of the system thus far in the absence of MIMO is described in Equation 11. The value of \(\alpha_m\) is assumed to be 1 at this stage implying that there is only 1 transmit and receive antenna.
+
+\begin{equation}
+	S_E = \frac{rlog_{2}M\alpha_m}{2} 
+\end{equation}
 
 \begin{table}[]
 	\centering
@@ -193,21 +197,110 @@ wherein r is the code rate of the BCH encoder, \(R_b\) is the information source
 		\hline
 		\textbf{Modulation Order (M)}       & 16                       & 64                        & 128                    \\ \hline
 		\textbf{Symbol Rate (Msymbols/sec)} & \multicolumn{1}{r|}{3.5} & \multicolumn{1}{c|}{2.33} & \multicolumn{1}{c|}{2} \\ \hline
+		\textbf{Spectral Efficiency ($S_E$)}  & 1.43                     & 2.14                      & 2.5                    \\ \hline
 	\end{tabular}
 \end{table}
+
+From table 1 it can be seen that 16-QAM at this stage in the design does not meet the success criteria as specified in section 2.1.
+
 \subsubsection{M-QAM Demodulation}
 To recover the original codeword, the M-QAM demodulator uses a coherent demodulator. The demodulator makes use of 2 cascaded mixers, lowpass filters and a symbol demapper \cite{B15}. Two carrier  signals are fed into the mixer and its outputs are sent to lowpass filters. The lowpass filter will attenuate the noise introduced during transmission. The symbol demapper will try to map the resulting symbol to one of the possible unique patterns of bits. The decision used to map the symbol is a Hard decision algorithm. In a Hard decision algorithm, the Hamming distance between the received codeword and all the possible patterns of bits are calculated. The pattern which yields the minimum hamming distance is chosen.
 
-\subsection{Rayleigh Fading Channel}
+\subsection{Rayleigh Fading and AWGN Channel}
+It is known that during data transmission the data is affected by the noise and fading effects that are present in the wireless channel. Fading can be described as the rapid changes of the channel state which can be caused by various factors such as the weather \cite{3}. Rapid fluctuations can cause the signal to be attenuated also affecting the phase hence introducing errors. To model the behaviour of these fluctuations, fading coefficients are constructed using two Gaussian random variables \textit{A} and \textit{B} as seen in Equation 12 which both follow a Rayleigh distribution with 0 mean and a variance of 1.
 
+\begin{equation}
+	h = A+jB
+\end{equation}
+
+The fading effects on the received signal are multiplicative as presented in Equation 13, where \textit{n} is an Additive White Gaussian Noise. Another assumption that is made is that the Channel State Information is already known at both the transmitter and receiver, therefore the fading coefficients will be generated using two different random Gaussian variables.
+
+\begin{equation}
+	y = hx +n
+\end{equation}
+
+In this design it is assumed that the channel coherence time is 1ms, in other words the channel state will change every 1ms.
 \subsection{MIMO}
+Multiple Input Multiple Output systems use multiple antennas at the transmitter and at the receiver. MIMO architecture is in such a way that high data rates and increased channel capacity is achieved. This is because of its independent parallel subchannel layout and multipath transmission \cite{50} as indicated in Figure 1. In multipath transmission the same symbol is transmitted in multiple paths thus experiencing different disturbances and fading effects. This gives the system the ability to better retrieve the symbol at the receiver closest to the one that was transmitted. This retrieval would be based on the version of the symbol that experienced minimal disturbances and fading effects. MIMO therefore provides link reliability through multiple antennas and multiple paths. One major challenge with multipath transmission is that symbols arrive at the transmitters at same time causing intersymbol interference (ISI) \cite{50}. ISI is also a consequence of delayed signals from previous transmissions, making it difficult to distinguish the symbols as they will be overlapping. The following equations shows the resulting received signal when ISI occurrs:
 
+\begin{equation}
+	Y_Q = \displaystyle\sum_{i=1}^{L} h(i)[A_{i}cos(2\pi f_c \tau_{i}) -B_{i}sin(2\pi f_c \tau_{i})]
+\end{equation}
+\begin{equation}
+Y_I = \displaystyle\sum_{i=1}^{L} h(i)[B_{i}cos(2\pi f_c \tau_{i}) + A_{i}sin(2\pi f_c \tau_{i})]
+\end{equation}
 
-\subsubsection{STBC}
-\subsubsection{Spartial Multiplexing}
-\subsection{MIMO Receiver}
+wherein L is the number of received signals and h is the randomly generated Rayleigh fading with 0 mean and a variance of 1 as described in section 4.3.
 
+\subsubsection{Space Time Block Codes (STBC)}
+STBC is a MIMO scheme that transmits copies of the same symbol through multiple transmit antennas \cite{alsahlanyperformance}. Different versions of the the same symbol are received to get a more reliable version of the transmitted signal. It was found that with STBC, the probability of loosing the transmitted signal decreases exponentially \cite{424}. STBC scheme is used to increase the diversity gain of the system and thus does not provide any improvement towards the spectral efficiency. This design is aimed at achieving high spectral efficiencies  therefore the STBC scheme is not chosen.
 
+\subsubsection{Spatial Multiplexing}
+
+Spatial Multiplexing is different from STBC codes such that instead of sending multiple copies of the same symbol, several different symbols are transmitted at the same time through independent transmit antennas and channels \cite{slides}. This technique allows an increase in data throughput by increasing channel capacity at the same  bandwidth and also an increase in spectral efficiency. For this reason, this MIMO scheme will be adopted in this design.
+
+The following equations shows the relation between the received signal vector for a MIMO architecture with \(N_t\) transmit antennas, \(N_r\) receive antennas and a matrix of fading coefficients H of size \(N_r\times N_t\). \(\vec{n}\) is a vector of AWGN noise variables. 
+
+\begin{equation}
+\vec{y} = H\vec{x}+\vec{n}
+\end{equation}
+
+\begin{equation}
+\quad
+\begin{bmatrix}
+y_1  \\
+y_2  \\
+\vdots \\
+y_{N_r}
+\end{bmatrix}
+\quad =	\quad
+	\begin{bmatrix}
+	h_{11} & h_{12} & \ldots &h_{1N_t}\\
+	h_{21} & h_{21} & \ldots &h_{2N_t} \\
+	\vdots  & \vdots & \ddots& \vdots \\
+	h_{N_r 1} &h_{N_r 2} & \ldots&h_{N_r N_t}
+	\end{bmatrix}
+	\quad \\
+	\quad
+	\begin{bmatrix}
+	x_1  \\
+	x_2  \\
+	\vdots \\
+	x_{N_t}
+	\end{bmatrix} + \quad
+	\begin{bmatrix}
+	n_1  \\
+	n_2  \\
+	\vdots \\
+	n_{N_r}
+	\end{bmatrix}
+\end{equation}
+
+The spectral efficiency of the system will now be affected by how many transmit antennas are employed. Equation 11 will be used to calculate the spectral efficiency , however the value of \(\alpha_m\) will now be equal \(N_t\). The performance of a  \(2\times2\) MIMO system will be investigated in this design. Table 2 shows the overall spectral efficiency of the system for the different modulation schemes with MIMO. It can be seen that all the modulation schemes meet the specified success criteria.
+
+\begin{table}[h!]
+	\centering
+	\caption{Spectral Efficiency of the Investigated M-QAM schemes}
+	\label{1}
+	\begin{tabular}{|c|l|l|l|}
+		\hline
+		\textbf{Modulation Order (M)}      & 16   & 64   & 128 \\ \hline
+		\textbf{Spectral Efficiency ($S_E$)} & 2.85 & 4.28 & 5   \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsection{MIMO Receiver and Equalization}
+In MIMO systems all the receive antennas will receive signals from all the transmit antennas, therefore the receieved signal at each antenna will be a combination of all the transmitted symbols \cite{BOOK8}. To detect the desired transmitted signal, a method called MIMO equalization is employed. This method tries to minimize other interfering symbols. Since the receiver is linear a linear equalizer must be used. There are two types of linear equalizers, one being the Zero Forcing (ZF) and the other Minimum Mean Square Error (MMSE). ZF is not efficient because it amplifies the noise if the value of any of the fading coefficients is too small \cite{46}. MMSE on the other hand minimizes ISI to an extent as well as the noise power \cite{41}. This is achieved by minimizing the mean square error with an equalization matrix \textbf{W} in Equation 18. MMSE will thus be adopted in this design. 
+
+\begin{equation}
+	W = {[H^{H}H + N_o I]}^{-1} H^H
+\end{equation}
+
+The estimated received signal is expressed in the equation below:
+
+\begin{equation}
+	\tilde{x} = W\vec{y}
+\end{equation}
 \section{Simulation Results}
 \section{Critical Analysis}
 
